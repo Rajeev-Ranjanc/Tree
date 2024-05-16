@@ -1,5 +1,6 @@
 package binaryTree;
 
+import javax.swing.tree.TreeNode;
 import java.util.*;
 
 /*
@@ -63,6 +64,7 @@ public class Binary {
         q.add(null);
 
         while (!q.isEmpty()) {
+
             Node temp = q.poll();
 
             if (temp == null) {
@@ -85,6 +87,8 @@ public class Binary {
 
 
         }
+
+
     }
 
     //building tree from level order traversal
@@ -530,14 +534,88 @@ public class Binary {
 
     //    https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/
     //leetcode 987 -> hard do it by hard try
-    List<List<Integer>> list;
+
 
     public List<List<Integer>> verticalTraversal(Node root) {
-        return list;
+        return new ArrayList<>();
     }
 
 
+    //    https://leetcode.com/problems/binary-tree-level-order-traversal/
+    public List<List<Integer>> levelOrder(Node root) {
+/*
+        Approaching this problem means first we created a queue to store the TreeNode and we
+        https://leetcode.com/problems/binary-tree-level-order-traversal/submissions/ have to check for the traversal
+        Initialize a queue to perform level order traversal.
+    Initialize a list to store the result, where each sublist represents a level of the tree.
+    If the root is null, return an empty list, as there are no nodes to traverse.
+    Add the root node to the queue to start the traversal.
+    While the queue is not empty, do the following:
+    a. Get the number of nodes at the current level.
+    b. Initialize a sublist to store the values at the current level.
+    c. Process all nodes at the current level:
+    i. Add the left child to the queue if it exists.
+    ii. Add the right child to the queue if it exists.
+    iii. Remove the current node from the queue and add its value to the sublist.
+    d. Add the sublist to the result list.
+    Return the result list containing the nodes at each level of the tree.
+ */
+        Queue<Node> queue = new LinkedList<>();
 
+        List<List<Integer>> list = new ArrayList<>();
+        //base cases
+        if (root == null) {
+            return list;
+        }
+
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+
+            int levelNum = queue.size();
+
+            List<Integer> subList = new ArrayList<>();
+
+            for (int i = 0; i < levelNum; i++) {
+
+                if (queue.peek().left != null) {
+
+                    queue.offer(queue.peek().left);
+
+                }
+                if (queue.peek().right != null) {
+
+                    queue.add(queue.peek().right);
+
+                }
+
+                subList.add(queue.remove().data);
+
+            }
+            list.add(subList);
+
+        }
+        return list;
+    }
+
+//    https://leetcode.com/problems/evaluate-boolean-binary-tree/?envType=daily-question&envId=2024-05-16
+//    Leetcode potd Evaluate Boolean Binary Tree
+    public boolean evaluateTree(Node root) {
+        //base case
+        if (root.left == null && root.right == null) {
+            return root.data != 0;
+        }
+
+
+        boolean a = evaluateTree(root.left);
+        boolean b = evaluateTree(root.right);
+
+        if (root.data == 2) {
+            return a | b;
+        }
+        return a & b;
+
+    }
 
 
     public static void main(String[] args) {
@@ -566,13 +644,13 @@ public class Binary {
 
 //        root = bt.buildTree(root);
 //        System.out.println(bt.diameter(root));
+//
+//        int[] inorder = {4, 8, 2, 5, 1, 6, 3, 7};
+//        int[] postorder = {8, 4, 5, 2, 6, 7, 3, 1};
 
-        int[] inorder = {4, 8, 2, 5, 1, 6, 3, 7};
-        int[] postorder = {8, 4, 5, 2, 6, 7, 3, 1};
 
-
-        Node r = bt.buildTree(inorder, postorder, inorder.length);
-        System.out.println(bt.preorderTraversal(r));
+//        Node r = bt.buildTree(inorder, postorder, inorder.length);
+//        System.out.println(bt.preorderTraversal(r));
 
 
     }
